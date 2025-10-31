@@ -2,7 +2,13 @@ import express, { Application } from "express";
 import cors from "cors";
 
 import { errorHandler } from "./middleware/error.middleware";
-import { authRouter, healthRouter, userRouter, adminRouter } from "./routes";
+import {
+  authRouter,
+  healthRouter,
+  userRouter,
+  adminRouter,
+  workoutRouter,
+} from "./routes";
 
 import cookieParser from "cookie-parser";
 
@@ -17,6 +23,7 @@ app.use("/api", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user-profile", userRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/workouts", workoutRouter);
 
 // Error Handling Middleware
 app.use(errorHandler);
