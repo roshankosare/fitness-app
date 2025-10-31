@@ -1,0 +1,36 @@
+node_modules
+# Keep environment variables out of version control
+.env
+# ------------------------
+# Node / Next.js defaults
+# ------------------------
+
+# Dependencies
+**/node_modules
+node_modules
+
+# Build outputs
+**/dist
+
+
+
+
+
+# Local environment variables
+**/.env
+!**/.env.example
+
+
+# ------------------------
+# Editor settings
+# ------------------------
+.vscode
+.idea
+*.swp
+*.swo
+
+# ------------------------
+# Custom ignores (from both apps)
+# ------------------------
+
+/generated/prisma

@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  fullName String
+  password String
+  role     Role   @default(USER)
+
+  // Profiles
+  userProfile  UserProfile?
+  adminProfile AdminProfile?
+
+  // Relations
+  workouts     Workout[]
+  userPlans    UserPlan[]
+  plansCreated Plan[]     @relation("AdminPlans")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserProfile {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  age      Int?
+  heightCm Float?
+  weightKg Float?
+  goal     String?
+  activity String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AdminProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Plan {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  createdById String
+  createdBy   User   @relation("AdminPlans", fields: [createdById], references: [id])
+
+  weeks      PlanWeek[]
+  selectedBy UserPlan[] // Users who selected this plan
+  workouts   Workout[]
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlanWeek {
+  id         String @id @default(uuid())
+  planId     String
+  plan       Plan   @relation(fields: [planId], references: [id])
+  weekNumber Int
+  activities Json // JSON structure for Day 1–7 breakdown
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([planId, weekNumber])
+}
+
+model Workout {
+  id       String   @id @default(uuid())
+  userId   String
+  planId   String
+  exercise String
+  sets     Int?
+  reps     Int?
+  duration Int?
+  date     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  plan Plan @relation(fields: [planId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserPlan {
+  id     String @id @default(uuid())
+  userId String
+  planId String
+
+  user User @relation(fields: [userId], references: [id])
+  plan Plan @relation(fields: [planId], references: [id])
+
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  progress  Json? // Optional progress tracking
+
+  @@unique([userId, planId]) // Prevent duplicate selections
+}

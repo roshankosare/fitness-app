@@ -1,0 +1,23 @@
+{
+  "name": "mini-project-fitness-app",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "api",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm --workspace frontend run dev\" \"npm --workspace api run dev\" ",
+    "build": "npm run build --workspaces",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0",
+    "concurrently": "^9.2.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0",
+    "typescript": "^5.0.0"
+  }
+}
