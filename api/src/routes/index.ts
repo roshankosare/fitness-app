@@ -3,3 +3,4 @@ export * from "./auth.route";
 export * from "./user.route";
 export * from "./admin.route";
 export * from "./workoutPlan.router";
+export * from "./workout.router";

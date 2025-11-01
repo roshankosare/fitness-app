@@ -1,6 +1,6 @@
 import { prisma } from "../../src/util/db";
 import { ValidationError } from "../../src/errors";
-import { getAllWorkoutsPlans, getWorkoutById } from "../../src/services";
+import { getAllWorkoutsPlans, getWorkoutPlanById } from "../../src/services";
 
 jest.mock("../../src/util/db", () => ({
   prisma: {
@@ -40,7 +40,7 @@ describe("Workout Service", () => {
       };
       (prisma.plan.findUnique as jest.Mock).mockResolvedValue(mockPlan);
 
-      const result = await getWorkoutById("1");
+      const result = await getWorkoutPlanById("1");
 
       expect(prisma.plan.findUnique).toHaveBeenCalledWith({
         where: { id: "1" },
@@ -52,7 +52,7 @@ describe("Workout Service", () => {
     it("should throw ValidationError if not found", async () => {
       (prisma.plan.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(getWorkoutById("999")).rejects.toThrow(ValidationError);
+      await expect(getWorkoutPlanById("999")).rejects.toThrow(ValidationError);
     });
   });
 });

@@ -14,7 +14,7 @@ export const getAllWorkoutsPlans = async () => {
   return plans;
 };
 
-export const getWorkoutById = async (id: string) => {
+export const getWorkoutPlanById = async (id: string) => {
   const plan = await prisma.plan.findUnique({
     where: {
       id: id,

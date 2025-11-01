@@ -11,6 +11,7 @@ import {
   addOrUpdatePlanWeekController,
   deletePlanWeekController,
 } from "../controllers";
+import { upload } from "../middleware";
 
 export const adminRouter = express.Router();
 
@@ -29,10 +30,20 @@ adminRouter.put("/profile", adminAuth, updateAdminProfileController);
 * 🏋️ Plan Routes
 * ─────────────────────────────────────────────────────────────
   */
-adminRouter.post("/plans", adminAuth, createPlanController);
+adminRouter.post(
+  "/plans",
+  adminAuth,
+  upload.single("image"),
+  createPlanController
+);
 adminRouter.get("/plans", adminAuth, getAllPlansController);
 adminRouter.get("/plans/:planId", adminAuth, getPlanByIdController);
-adminRouter.put("/plans/:planId", adminAuth, updatePlanController);
+adminRouter.put(
+  "/plans/:planId",
+  adminAuth,
+  upload.single("image"),
+  updatePlanController
+);
 adminRouter.delete("/plans/:planId", adminAuth, deletePlanController);
 
 /**

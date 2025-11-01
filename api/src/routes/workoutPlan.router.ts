@@ -1,15 +1,15 @@
 import { Router } from "express";
 import {
   getAllWorkoutPlansController,
-  getWorkoutByIdController,
+  getWorkoutPlanByIdController,
 } from "../controllers";
 
-const workoutRouter = Router();
+const workoutPlanRouter = Router();
 
 // GET /api/workouts
-workoutRouter.get("/", getAllWorkoutPlansController);
+workoutPlanRouter.get("/", getAllWorkoutPlansController);
 
 // GET /api/workouts/:id
-workoutRouter.get("/:id", getWorkoutByIdController);
+workoutPlanRouter.get("/:id", getWorkoutPlanByIdController);
 
-export { workoutRouter };
+export { workoutPlanRouter };

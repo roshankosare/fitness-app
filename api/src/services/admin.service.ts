@@ -49,7 +49,10 @@ export const updateAdminProfile = async (
 * ─────────────────────────────────────────────────────────────
   */
 
-type CreatePlanInput = Pick<Prisma.PlanCreateInput, "name" | "description">;
+type CreatePlanInput = Pick<
+  Prisma.PlanCreateInput,
+  "name" | "description" | "bannerImage"
+>;
 
 export const createPlan = async (adminId: string, data: CreatePlanInput) => {
   const admin = await prisma.user.findUnique({ where: { id: adminId } });
@@ -95,16 +98,24 @@ export const getPlanById = async (planId: string) => {
 export const updatePlan = async (
   adminId: string,
   planId: string,
-  data: Partial<Pick<Prisma.PlanUpdateInput, "name" | "description">>
+  data: Partial<
+    Pick<Prisma.PlanUpdateInput, "name" | "description" | "bannerImage">
+  >
 ) => {
   const plan = await prisma.plan.findUnique({
     where: { createdById: adminId, id: planId },
   });
   if (!plan) throw new ValidationError("Plan not found");
 
+  const updateData: Prisma.PlanUpdateInput = {
+    ...(data.name && { name: data.name }),
+    ...(data.description && { description: data.description }),
+    ...(data.bannerImage != null && { bannerImage: data.bannerImage }), // ✅ only if not null/undefined
+  };
+
   const updatedPlan = await prisma.plan.update({
     where: { id: planId },
-    data,
+    data: updateData,
   });
 
   return updatedPlan;

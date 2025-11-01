@@ -77,8 +77,13 @@ export const createPlanController = async (
   try {
     const adminId = (req as any).admin.id; // ✅ from cookie
     const { name, description } = req.body;
+    const image = (req as any).file;
     createPlanValidation({ name, description });
-    const plan = await createPlan(adminId, { name, description });
+    const plan = await createPlan(adminId, {
+      name,
+      description,
+      bannerImage: image || null,
+    });
 
     res.status(201).json({
       success: true,
@@ -134,11 +139,13 @@ export const updatePlanController = async (
     const adminId = (req as any).admin.id;
     const planId = req.params.planId;
     const { name, description } = req.body;
+    const image = (req as any).file;
 
     updatePlanValidation({ name, description });
     const updatedPlan = await updatePlan(adminId, planId, {
       name,
       description,
+      bannerImage:image 
     });
 
     res.status(200).json({

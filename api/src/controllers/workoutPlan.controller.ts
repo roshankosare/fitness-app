@@ -17,7 +17,7 @@ export const getAllWorkoutPlansController = async (
   }
 };
 
-export const getWorkoutByIdController = async (
+export const getWorkoutPlanByIdController = async (
   req: Request,
   res: Response,
   next: NextFunction
