@@ -1,35 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-dark-5/dist/css/bootstrap-dark.min.css";
+import "./App.css";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import Home from "./pages/home";
+import SignIn from "./pages/sing-in";
+import SignUp from "./pages/sing-up";
+import About from "./pages/about";
+import Contact from "./pages/contact";
+import Header from "./components/header/header";
+import Plans from "./pages/plan";
+import PlanInfo from "./pages/planInfo";
+import AdminSignUp from "./pages/admin-sign-up";
+import CreatePlan from "./pages/create-workout-plan";
+import CreateWorkout from "./pages/create-workout";
+import WeeklyPlanBuilder from "./pages/plan-builder";
+import { AdminRoute } from "./components/protected-routes";
+import { AuthProvider } from "./providers/authProvider";
+import Dashboard from "./pages/dashboard";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <AuthProvider>
+        {/* Navbar */}
+        <Header />
+        <div className="d-flex flex-column min-vh-100 bg-black text-light">
+          {/* Main Content */}
+          <Container className="flex-grow-1 py-5">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signup-admin" element={<AdminSignUp />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/plans" element={<Plans />} />
+              <Route path="/plans/:id" element={<PlanInfo />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/admin/create-plan"
+                element={
+                  <AdminRoute>
+                    <CreatePlan />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/create-workout"
+                element={
+                  <AdminRoute>
+                    <CreateWorkout />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/plan-builder/:id"
+                element={
+                  <AdminRoute>
+                    <WeeklyPlanBuilder />
+                  </AdminRoute>
+                }
+              />
+            </Routes>
+          </Container>
+
+          {/* Sticky Footer */}
+          <footer className="bg-dark text-light text-center py-3 mt-auto border-top border-secondary">
+            <Container>
+              <p className="mb-0">
+                © {new Date().getFullYear()} <strong>MyFitness</strong>. All
+                rights reserved.
+              </p>
+            </Container>
+          </footer>
+        </div>
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;

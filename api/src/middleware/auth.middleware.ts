@@ -12,8 +12,8 @@ interface JwtPayload {
 // Middleware to verify any logged-in user
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies?.token; // read token from cookie
-
   if (!token) {
+    
     return res.status(401).json({
       success: false,
       message: "Access denied. No authentication token found.",
@@ -25,6 +25,7 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
     (req as any).user = decoded;
     next();
   } catch (err) {
+    console.log(err);
     return res.status(401).json({
       success: false,
       message: "Invalid or expired authentication token.",
