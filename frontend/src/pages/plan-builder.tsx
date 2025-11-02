@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Container,
@@ -10,90 +9,25 @@ import {
   InputGroup,
   ListGroup,
 } from "react-bootstrap";
+import { usePlanBuilder } from "../hooks/usePlanBuilder";
+import { Loading } from "../components/loading";
 
 // Mock async search (replace with API call)
-const mockFetchExercises = async (query: string) => {
-  const all = [
-    "Bench Press",
-    "Squats",
-    "Deadlift",
-    "Pull Ups",
-    "Push Ups",
-    "Lunges",
-    "Plank",
-  ];
-  return all.filter((e) => e.toLowerCase().includes(query.toLowerCase()));
-};
 
 const WeeklyPlanBuilder = () => {
-  const { planId } = useParams(); // get plan id from route
-  const [weeks, setWeeks] = useState<any[]>([]);
+  const { planId } = useParams<{ planId: string }>();
 
-  const addWeek = () => {
-    if (weeks.length >= 4) return alert("Maximum 4 weeks allowed!");
-    setWeeks([
-      ...weeks,
-      {
-        id: Date.now(),
-        days: Array.from({ length: 7 }, (_, i) => ({
-          day: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-          ][i],
-          exercise: "",
-          sets: "",
-          reps: "",
-          searchResults: [],
-        })),
-      },
-    ]);
-  };
+  const {
+    loading,
+    weeks,
+    plan,
+    handleDayChange,
+    addWeek,
+    savePlan,
+    selectExercise,
+  } = usePlanBuilder(planId);
 
-  const handleDayChange = async (
-    weekIndex: number,
-    dayIndex: number,
-    field: string,
-    value: string
-  ) => {
-    const newWeeks = [...weeks];
-    const day = newWeeks[weekIndex].days[dayIndex];
-
-    if (field === "exercise") {
-      day.exercise = value;
-      if (value.trim().length > 0) {
-        day.searchResults = await mockFetchExercises(value);
-      } else {
-        day.searchResults = [];
-      }
-    } else {
-      (day as any)[field] = value;
-    }
-
-    setWeeks(newWeeks);
-  };
-
-  const selectExercise = (
-    weekIndex: number,
-    dayIndex: number,
-    name: string
-  ) => {
-    const newWeeks = [...weeks];
-    const day = newWeeks[weekIndex].days[dayIndex];
-    day.exercise = name;
-    day.searchResults = [];
-    setWeeks(newWeeks);
-  };
-
-  const savePlan = () => {
-    console.log("Saving plan:", { planId, weeks });
-    alert("Weekly plan saved (check console for output)");
-  };
-
+  if (loading) return <Loading />;
   return (
     <Container
       className="py-5 text-white"
@@ -103,7 +37,7 @@ const WeeklyPlanBuilder = () => {
         Weekly Plan Builder
       </h2>
       <p className="text-center text-white-50 mb-4">
-        Plan ID: <strong>{planId}</strong>
+        Plan Name: <strong>{plan?.name}</strong>
       </p>
 
       <div className="d-flex justify-content-center mb-4">

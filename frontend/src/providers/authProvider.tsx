@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
       console.log(res.data);
-      setUser(res.data);
+      setUser(res.data.user);
     } catch {
       setUser(null);
     } finally {

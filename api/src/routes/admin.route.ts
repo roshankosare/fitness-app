@@ -33,7 +33,7 @@ adminRouter.put("/profile", adminAuth, updateAdminProfileController);
 adminRouter.post(
   "/plans",
   adminAuth,
-  upload.single("image"),
+  upload.single("bannerImage"),
   createPlanController
 );
 adminRouter.get("/plans", adminAuth, getAllPlansController);

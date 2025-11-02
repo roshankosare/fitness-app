@@ -24,6 +24,19 @@ npm install
 
 ```
 
+
+### generate prisma lib
+```
+npx prisma generate
+
+```
+
+### deploy migrations
+``` 
+npx prisma migrate deploy
+
+```
+
 ### start project
 
 ```

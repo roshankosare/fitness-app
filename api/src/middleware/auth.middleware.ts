@@ -6,14 +6,13 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 interface JwtPayload {
   id: string;
   email: string;
-  role: "user" | "admin";
+  role: "USER" | "ADMIN";
 }
 
 // Middleware to verify any logged-in user
 export const userAuth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies?.token; // read token from cookie
   if (!token) {
-    
     return res.status(401).json({
       success: false,
       message: "Access denied. No authentication token found.",
@@ -22,6 +21,12 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
+    // if (decoded.role !== "USER") {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "Access denied. User only.",
+    //   });
+    // }
     (req as any).user = decoded;
     next();
   } catch (err) {
@@ -47,7 +52,7 @@ export const adminAuth = (req: Request, res: Response, next: NextFunction) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-    if (decoded.role !== "admin") {
+    if (decoded.role !== "ADMIN") {
       return res.status(403).json({
         success: false,
         message: "Access denied. Admins only.",

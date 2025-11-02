@@ -56,7 +56,7 @@ function App() {
                 }
               />
               <Route
-                path="/admin/plan-builder/:id"
+                path="/admin/plan-builder/:planId"
                 element={
                   <AdminRoute>
                     <WeeklyPlanBuilder />

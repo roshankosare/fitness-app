@@ -59,7 +59,7 @@ export default function Header() {
               key={link.to}
               as={Link}
               to={link.to}
-              className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
+              className={`d-flex align-items-center gap-2 fw-semibold text-white ${isActive(
                 link.to
               )}`}
             >
@@ -83,12 +83,12 @@ export default function Header() {
               </Nav.Link>
               <Nav.Link
                 as={Link}
-                to="/signup"
+                to="/signup-admin"
                 className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
                   "/signup"
                 )}`}
               >
-                <FaSignInAlt /> Sign Up
+                <FaSignInAlt /> Be Admin
               </Nav.Link>
             </>
           ) : (
@@ -97,7 +97,7 @@ export default function Header() {
               onClick={logout}
               className="d-flex align-items-center gap-2 fw-semibold"
             >
-               Sign Out
+              Sign Out
             </Nav.Link>
           )}
         </Nav>
@@ -120,7 +120,7 @@ export default function Header() {
           </Offcanvas.Header>
 
           <Offcanvas.Body>
-            <Nav className="flex-column gap-3">
+            <Nav className="flex-column gap-3 text-white">
               {mainLinks.map((link) => (
                 <Nav.Link
                   key={link.to}
@@ -149,12 +149,12 @@ export default function Header() {
                   </Nav.Link>
                   <Nav.Link
                     as={Link}
-                    to="/signup"
+                    to="/signup-admin"
                     className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
                       "/signup"
                     )}`}
                   >
-                    <FaSignInAlt /> Sign Up
+                    <FaSignInAlt /> Be Admin
                   </Nav.Link>
                 </>
               ) : (
@@ -163,7 +163,7 @@ export default function Header() {
                   onClick={logout}
                   className="d-flex align-items-center gap-2 text-danger fw-semibold"
                 >
-                   Sign Out
+                  Sign Out
                 </Nav.Link>
               )}
             </Nav>

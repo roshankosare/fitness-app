@@ -28,7 +28,7 @@ const AdminSignUp = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/sign-up/admin",
+        "http://localhost:4000/api/auth/sign-up/admin",
         formData,
         {
           withCredentials: true, // ✅ allows browser to store cookies set by the server
@@ -45,6 +45,7 @@ const AdminSignUp = () => {
       // rediredct
       navigate("/dashboard");
     } catch (error) {
+      console.log(error);
       if (error instanceof AxiosError)
         setMessage({
           type: "danger",
@@ -60,14 +61,14 @@ const AdminSignUp = () => {
 
   return (
     <Container
-      className="d-flex justify-content-center align-items-center min-vh-100"
+      className="d-flex justify-content-center align-items-center min-vh-100 p-0"
       style={{
         background: "linear-gradient(to bottom right, #0a0a0a, #1a1a1a)",
       }}
     >
       <Card
         text="white"
-        className="py-4 px-3 shadow-lg bg-dark border-0 rounded-4"
+        className="shadow-lg bg-dark border-0 rounded-4"
         style={{ maxWidth: "420px", width: "100%" }}
       >
         <Card.Body>
