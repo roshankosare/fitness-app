@@ -17,11 +17,19 @@ export const createWorkoutController = async (
 ) => {
   try {
     const adminId = (req as any).admin.id; // ✅ from cookie/session middleware
-    const { exercise, image } = req.body;
+    const { exercise } = req.body;
+    const imageUrl = req.file
+      ? `${process.env.BASE_URL || "http://localhost:4000"}/uploads/${
+          req.file.filename
+        }`
+      : null;
 
-    createWorkoutValidation({ exercise, image });
+    createWorkoutValidation({ exercise, image: imageUrl! });
 
-    const workout = await createWorkout(adminId, { exercise, image });
+    const workout = await createWorkout(adminId, {
+      exercise,
+      image: imageUrl!,
+    });
 
     res.status(201).json({
       success: true,
@@ -68,11 +76,15 @@ export const updateWorkoutController = async (
 ) => {
   try {
     const { id } = req.params;
-    const { exercise, date, image } = req.body;
+    const { exercise } = req.body;
+    const imageUrl = req.file
+      ? `${process.env.BASE_URL || "http://localhost:4000"}/uploads/${
+          req.file.filename
+        }`
+      : null;
+    createWorkoutValidation({ exercise, image: imageUrl! });
 
-    createWorkoutValidation({ exercise, date, image });
-
-    const updated = await updateWorkout(id, { exercise, image });
+    const updated = await updateWorkout(id, { exercise, image: imageUrl! });
 
     res.json({
       success: true,

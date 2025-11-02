@@ -19,6 +19,8 @@ import WeeklyPlanBuilder from "./pages/plan-builder";
 import { AdminRoute } from "./components/protected-routes";
 import { AuthProvider } from "./providers/authProvider";
 import Dashboard from "./pages/dashboard";
+import ManagePlans from "./pages/manage-plans";
+import { ManageWorkouts } from "./pages/manage-workouts";
 
 function App() {
   return (
@@ -60,6 +62,23 @@ function App() {
                 element={
                   <AdminRoute>
                     <WeeklyPlanBuilder />
+                  </AdminRoute>
+                }
+              />
+
+              <Route
+                path="/admin/manage-plans"
+                element={
+                  <AdminRoute>
+                    <ManagePlans />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/manage-workouts"
+                element={
+                  <AdminRoute>
+                    <ManageWorkouts />
                   </AdminRoute>
                 }
               />

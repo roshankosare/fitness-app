@@ -13,13 +13,13 @@ const workoutRouter = Router();
 
 // Admin-authenticated routes
 workoutRouter.post(
-  "/",
+  "",
   adminAuth,
   upload.single("image"),
   createWorkoutController
 );
-workoutRouter.get("/", adminAuth, getAllWorkoutsController);
-workoutRouter.get("/:id", adminAuth, getWorkoutByIdController);
+workoutRouter.get("", getAllWorkoutsController);
+workoutRouter.get("/:id", getWorkoutByIdController);
 workoutRouter.get("/admin/all", adminAuth, getWorkoutsByAdminController);
 workoutRouter.put(
   "/:id",

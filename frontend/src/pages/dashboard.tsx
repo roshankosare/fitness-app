@@ -59,7 +59,19 @@ export const AdminDashboard = () => {
           action: "Add Plan",
         },
         {
-          link: "/admin/manage-plan",
+          link: "/admin/create-workout",
+          title: "Add New Workout",
+          icon: <FaDumbbell />,
+          action: "Add Workout",
+        },
+        {
+          link: "/admin/manage-workouts",
+          title: "Manage My Workouts",
+          icon: <FaDumbbell />,
+          action: "Manage",
+        },
+        {
+          link: "/admin/manage-plans",
           title: "Manage Plans",
           icon: <FaDumbbell />,
           action: "Manage",
@@ -77,12 +89,12 @@ export const AdminDashboard = () => {
           action: "View Profile",
         },
       ].map((card, idx) => (
-        <Col key={idx} md={6} lg={3}>
-          <Link to={card.link}>
+        <Col key={idx} md={6} lg={4}>
+          <Link to={card.link} className="text-decoration-none">
             <Card
               bg="black"
-              text="light"
-              className="h-100 shadow-sm border-0 rounded-5"
+              text="white"
+              className="h-100 shadow-sm border-0 rounded-5 py-2 "
             >
               <Card.Body className="d-flex flex-column justify-content-center align-items-center text-center">
                 <div className="text-primary mb-3" style={{ fontSize: "2rem" }}>

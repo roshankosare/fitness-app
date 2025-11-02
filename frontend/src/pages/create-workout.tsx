@@ -1,21 +1,71 @@
 import { useState } from "react";
-import { Form, Button, Card, Container } from "react-bootstrap";
+import { Form, Button, Card, Container, Alert } from "react-bootstrap";
+import axios, { AxiosError } from "axios";
 
 const CreateWorkout = () => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [exerciseName, setExerciseName] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "danger";
+  } | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setPreview(url);
+      setImageFile(file);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Add logic to send data to API
-    alert("Workout Created Successfully!");
+
+    if (!exerciseName || !imageFile) {
+      setMessage({ text: "Please fill in all fields.", type: "danger" });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage(null);
+
+      const formData = new FormData();
+      formData.append("exercise", exerciseName);
+      formData.append("image", imageFile);
+
+      const res = await axios.post(
+        `http://localhost:4000/api/workouts`,
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if (res.data.success) {
+        setMessage({ text: "Workout created successfully!", type: "success" });
+        setExerciseName("");
+        setPreview(null);
+        setImageFile(null);
+      } else {
+        setMessage({ text: "Failed to create workout.", type: "danger" });
+      }
+    } catch (error) {
+      if (error instanceof AxiosError)
+        setMessage({
+          text:
+            error.response?.data?.message ||
+            "Something went wrong while creating the workout.",
+          type: "danger",
+        });
+    } finally {
+      setLoading(false);
+      setTimeout(() => setMessage(null), 4000);
+    }
   };
 
   return (
@@ -35,6 +85,16 @@ const CreateWorkout = () => {
             Create Workout
           </h3>
 
+          {/* Message at top */}
+          {message && (
+            <Alert
+              variant={message.type}
+              className="text-center fw-semibold rounded-3 py-2"
+            >
+              {message.text}
+            </Alert>
+          )}
+
           <Form onSubmit={handleSubmit}>
             {/* Exercise Name */}
             <Form.Group controlId="exerciseName" className="mb-3">
@@ -42,6 +102,8 @@ const CreateWorkout = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter exercise name"
+                value={exerciseName}
+                onChange={(e) => setExerciseName(e.target.value)}
                 required
                 className="bg-secondary text-white border-0 rounded-3"
               />
@@ -75,9 +137,10 @@ const CreateWorkout = () => {
             <Button
               variant="primary"
               type="submit"
+              disabled={loading}
               className="w-100 fw-semibold text-white py-2 rounded-3"
             >
-              Create Workout
+              {loading ? "Creating..." : "Create Workout"}
             </Button>
           </Form>
         </Card.Body>
