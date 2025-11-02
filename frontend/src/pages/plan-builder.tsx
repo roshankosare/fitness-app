@@ -27,18 +27,20 @@ const WeeklyPlanBuilder = () => {
     loading,
     exerciseList,
     searchExercise,
+    currentListFor,
   } = usePlanBuilder(planId);
 
-  const [expandedWeeks, setExpandedWeeks] = useState<number[]>([]);
+  const [expandedWeeks, setExpandedWeeks] = useState<string[]>([]);
   const [expandedDays, setExpandedDays] = useState<Record<string, boolean>>({});
 
   if (loading) return <Loading />;
 
-  const toggleWeek = (weekId: string | number) => {
+  const toggleWeek = (weekId: string) => {
+    console.log(weekId);
     setExpandedWeeks((prev) =>
-      prev.includes(Number(weekId))
-        ? prev.filter((id) => id !== Number(weekId))
-        : [...prev, Number(weekId)]
+      prev.includes(weekId)
+        ? prev.filter((id) => id !== weekId)
+        : [...prev, weekId]
     );
   };
 
@@ -81,11 +83,11 @@ const WeeklyPlanBuilder = () => {
                 size="sm"
                 onClick={() => toggleWeek(week.id)}
               >
-                {expandedWeeks.includes(Number(week.id)) ? "Hide" : "Show"}
+                {expandedWeeks.includes(week.id) ? "Hide" : "Show"}
               </Button>
             </div>
 
-            <Collapse in={expandedWeeks.includes(Number(week.id))}>
+            <Collapse in={expandedWeeks.includes(week.id)}>
               <div>
                 {week.days.map((day, dayIndex) => {
                   const key = `${weekIndex}-${dayIndex}`;
@@ -135,31 +137,41 @@ const WeeklyPlanBuilder = () => {
                                   className="bg-dark text-white border-secondary"
                                   value={exercise.name}
                                   onChange={(e) =>
-                                    searchExercise(e.target.value)
+                                    searchExercise(
+                                      e.target.value,
+                                      `${weekIndex}${dayIndex}${exIndex}`
+                                    )
                                   }
                                 />
                               </InputGroup>
 
                               {/* 🔍 Show search results directly below the input */}
-                              {exerciseList && exerciseList.length > 0 && (
-                                <ListGroup
-                                  variant="flush"
-                                  className="bg-dark mb-2 rounded-3 border border-secondary"
-                                >
-                                  {exerciseList.map((ex, i) => (
-                                    <ListGroup.Item
-                                      key={i}
-                                      action
-                                      onClick={() =>
-                                        selectExercise(weekIndex, dayIndex, ex)
-                                      }
-                                      className="bg-transparent text-white border-secondary"
-                                    >
-                                      {ex}
-                                    </ListGroup.Item>
-                                  ))}
-                                </ListGroup>
-                              )}
+                              {exerciseList &&
+                                exerciseList.length > 0 &&
+                                currentListFor ===
+                                  `${weekIndex}${dayIndex}${exIndex}` && (
+                                  <ListGroup
+                                    variant="flush"
+                                    className="bg-dark mb-2 rounded-3 border border-secondary"
+                                  >
+                                    {exerciseList.map((ex, i) => (
+                                      <ListGroup.Item
+                                        key={i}
+                                        action
+                                        onClick={() =>
+                                          selectExercise(
+                                            weekIndex,
+                                            dayIndex,
+                                            ex
+                                          )
+                                        }
+                                        className="bg-transparent text-white border-secondary"
+                                      >
+                                        {ex}
+                                      </ListGroup.Item>
+                                    ))}
+                                  </ListGroup>
+                                )}
 
                               {/* 🏋️ Sets & Reps Fields */}
                               <Row>

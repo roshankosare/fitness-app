@@ -44,6 +44,7 @@ export const usePlanBuilder = (planId: string | null | undefined) => {
     (Pick<PlanWeek, "id"> & { days: WeekDay[] })[]
   >([]);
   const [exerciseList, setExerciseList] = useState<string[]>([]);
+  const [currentListFor, setCurrentListFor] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -107,8 +108,9 @@ export const usePlanBuilder = (planId: string | null | undefined) => {
     fetchPlan();
   }, [navigate, planId]);
 
-  const searchExercise = async (value: string) => {
+  const searchExercise = async (value: string, cr: string) => {
     const data = await mockFetchExercises(value);
+    setCurrentListFor(cr);
     setExerciseList(data);
   };
 
@@ -231,5 +233,6 @@ export const usePlanBuilder = (planId: string | null | undefined) => {
     loading,
     searchExercise,
     exerciseList,
+    currentListFor,
   };
 };
