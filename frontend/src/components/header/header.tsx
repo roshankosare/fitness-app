@@ -1,4 +1,5 @@
-import { Navbar, Nav, Offcanvas } from "react-bootstrap";
+import { useState } from "react";
+import { Navbar, Nav, Offcanvas, Container } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaHome,
@@ -13,9 +14,15 @@ import { useAuth } from "../../hooks/useAuth";
 export default function Header() {
   const location = useLocation();
   const { user, loading, logout } = useAuth();
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+  const handleClose = () => setShowOffcanvas(false);
+  const handleShow = () => setShowOffcanvas(true);
 
   const isActive = (path: string) =>
-    location.pathname === path ? "text-primary" : "text-white-50";
+    location.pathname === path
+      ? "bg-white text-dark rounded-pill px-3 py-1"
+      : "text-white px-3 py-1";
 
   const mainLinks = [
     { to: "/", label: "Home", icon: <FaHome /> },
@@ -26,96 +33,102 @@ export default function Header() {
 
   return (
     <Navbar
-      bg="black"
-      variant="dark"
       expand="lg"
       sticky="top"
-      className="shadow-sm px-3 w-100"
+      className="shadow-sm py-3 bg-dark"
+      variant="dark"
     >
-      <div className="container-fluid px-2 px-md-4">
+      <Container fluid className="px-3 px-md-5">
         {/* Brand */}
         <Navbar.Brand
           as={Link}
           to="/"
           className="d-flex align-items-center gap-2 fw-bold text-white"
         >
-          <FaDumbbell size={20} color="#0d6efd" />
-          <span>MyApp</span>
+          <span className="fs-2 bbh-sans-hegarty-regular">FitNest</span>
         </Navbar.Brand>
 
-        {/* Toggle (mobile) */}
-        <Navbar.Toggle
-          aria-controls="offcanvasNavbar"
-          className="border-0 p-1 d-lg-none text-white"
-          style={{ fontSize: "1.2rem" }}
+        {/* Mobile toggle (left aligned icon) */}
+        <button
+          onClick={handleShow}
+          className="border-0 bg-transparent text-white d-lg-none"
+          style={{ fontSize: "1.5rem" }}
+          aria-label="Open Menu"
         >
           <FaBars />
-        </Navbar.Toggle>
+        </button>
 
-        {/* Desktop Nav */}
-        <Nav className="mx-auto d-none d-lg-flex align-items-center gap-3">
-          {mainLinks.map((link) => (
-            <Nav.Link
-              key={link.to}
-              as={Link}
-              to={link.to}
-              className={`d-flex align-items-center gap-2 fw-semibold text-white ${isActive(
-                link.to
-              )}`}
-            >
-              {link.icon} {link.label}
-            </Nav.Link>
-          ))}
-        </Nav>
-
-        {/* Right-side Auth Buttons */}
-        <Nav className="ms-auto d-none d-lg-flex align-items-center gap-3">
-          {!loading && !user ? (
-            <>
+        {/* Desktop Navigation */}
+        <div className="d-none d-lg-flex w-100 justify-content-between align-items-center">
+          <Nav className="mx-auto d-flex align-items-center gap-3">
+            {mainLinks.map((link) => (
               <Nav.Link
+                key={link.to}
                 as={Link}
-                to="/signin"
+                to={link.to}
                 className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
-                  "/signin"
+                  link.to
                 )}`}
               >
-                <FaSignInAlt /> Sign In
+                {link.icon}
+                <span>{link.label}</span>
               </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/signup-admin"
-                className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
-                  "/signup"
-                )}`}
-              >
-                <FaSignInAlt /> Be Admin
-              </Nav.Link>
-            </>
-          ) : (
-            <Nav.Link
-              as="button"
-              onClick={logout}
-              className="d-flex align-items-center gap-2 fw-semibold"
-            >
-              Sign Out
-            </Nav.Link>
-          )}
-        </Nav>
+            ))}
+          </Nav>
 
-        {/* Mobile Sidebar */}
+          {/* Auth Buttons (Desktop only) */}
+          <Nav className="ms-auto d-flex align-items-center gap-3">
+            {!loading && !user ? (
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/signin"
+                  className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
+                    "/signin"
+                  )}`}
+                >
+                  <FaSignInAlt />
+                  <span>Sign In</span>
+                </Nav.Link>
+                <Nav.Link
+                  as={Link}
+                  to="/signup-admin"
+                  className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
+                    "/signup-admin"
+                  )}`}
+                >
+                  <FaSignInAlt />
+                  <span>Be Admin</span>
+                </Nav.Link>
+              </>
+            ) : (
+              <Nav.Link
+                as="button"
+                onClick={logout}
+                className="d-flex align-items-center gap-2 fw-semibold bg-white text-black rounded-pill px-3 py-1"
+              >
+                Sign Out
+              </Nav.Link>
+            )}
+          </Nav>
+        </div>
+
+        {/* Mobile Offcanvas Navigation (slides from left) */}
         <Navbar.Offcanvas
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
           placement="start"
-          className="bg-black text-white d-lg-none"
+          show={showOffcanvas}
+          onHide={handleClose}
+          className="bg-dark text-white d-lg-none"
         >
           <Offcanvas.Header closeButton closeVariant="white">
             <Offcanvas.Title
               id="offcanvasNavbarLabel"
-              className="d-flex align-items-center gap-2"
+              className="d-flex align-items-center gap-2 text-white"
             >
-              <FaDumbbell color="#0d6efd" />
-              MyApp Menu
+              <FaDumbbell className="text-primary" />
+              <span>MyApp Menu</span>
             </Offcanvas.Title>
           </Offcanvas.Header>
 
@@ -126,11 +139,13 @@ export default function Header() {
                   key={link.to}
                   as={Link}
                   to={link.to}
+                  onClick={handleClose} // ✅ closes menu on click
                   className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
                     link.to
                   )}`}
                 >
-                  {link.icon} {link.label}
+                  {link.icon}
+                  <span>{link.label}</span>
                 </Nav.Link>
               ))}
 
@@ -141,35 +156,43 @@ export default function Header() {
                   <Nav.Link
                     as={Link}
                     to="/signin"
+                    onClick={handleClose}
                     className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
                       "/signin"
                     )}`}
                   >
-                    <FaSignInAlt /> Sign In
+                    <FaSignInAlt />
+                    <span>Sign In</span>
                   </Nav.Link>
                   <Nav.Link
                     as={Link}
                     to="/signup-admin"
+                    onClick={handleClose}
                     className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
-                      "/signup"
+                      "/signup-admin"
                     )}`}
                   >
-                    <FaSignInAlt /> Be Admin
+                    <FaSignInAlt />
+                    <span>Be Admin</span>
                   </Nav.Link>
                 </>
               ) : (
                 <Nav.Link
                   as="button"
-                  onClick={logout}
+                  onClick={() => {
+                    logout();
+                    handleClose();
+                  }}
                   className="d-flex align-items-center gap-2 text-danger fw-semibold"
                 >
-                  Sign Out
+                  <FaSignInAlt />
+                  <span>Sign Out</span>
                 </Nav.Link>
               )}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
-      </div>
+      </Container>
     </Navbar>
   );
 }

@@ -1,3 +1,5 @@
+
+
 html,
 body,
 #root {
@@ -13,4 +15,10 @@ footer {
 
 .bg-dark {
   background-color: #1f1e1d !important; /* your custom dark shade */
+}
+
+.bbh-sans-hegarty-regular {
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

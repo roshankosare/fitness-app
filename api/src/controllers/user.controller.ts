@@ -4,6 +4,7 @@ import {
   updateUserProfile,
   subscribeWorkoutPlan,
   withdrawWorkoutPlan,
+  getUserPlan,
 } from "../services/user.service";
 
 /**
@@ -23,6 +24,24 @@ export const getUserProfileController = async (
     res.status(200).json({
       success: true,
       data: user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getUserPlanController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = (req as any).user.id;
+    const userPlan = await getUserPlan(id);
+
+    res.status(200).json({
+      success: true,
+      data: userPlan,
     });
   } catch (err) {
     next(err);

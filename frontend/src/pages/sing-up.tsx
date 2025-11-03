@@ -56,7 +56,7 @@ const SignUp = () => {
     <Container className="d-flex justify-content-center align-items-center px-0">
       <Card
         text="white"
-        className="py-4 shadow-lg bg-dark"
+        className="py-4 shadow-lg bg-dark px-2"
         style={{ maxWidth: "400px", width: "100%" }}
       >
         <Card.Body>
@@ -78,7 +78,7 @@ const SignUp = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Enter your full name"
-                className="bg-secondary text-white border-0"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
@@ -92,7 +92,7 @@ const SignUp = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                className="bg-secondary text-white border-0"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
@@ -106,15 +106,14 @@ const SignUp = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="bg-secondary text-white border-0"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
 
             <Button
-              variant="primary"
               type="submit"
-              className="w-100 fw-semibold text-white"
+              className="w-100 bg-white px-5 rounded-5 py-2 text-black fw-semibold"
               disabled={loading}
             >
               {loading ? <Spinner animation="border" size="sm" /> : "Sign Up"}

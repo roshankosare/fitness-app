@@ -55,7 +55,7 @@ const SignIn = () => {
     <Container className="d-flex justify-content-center align-items-center px-0">
       <Card
         text="white"
-        className="py-4 shadow-lg bg-dark"
+        className="py-4 shadow-lg bg-dark px-2"
         style={{ maxWidth: "400px", width: "100%" }}
       >
         <Card.Body>
@@ -71,7 +71,7 @@ const SignIn = () => {
                 type="email"
                 name="email"
                 placeholder="Enter your email"
-                className="bg-secondary text-white border-0"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -85,7 +85,7 @@ const SignIn = () => {
                 type="password"
                 name="password"
                 placeholder="Enter your password"
-                className="bg-secondary text-white border-0"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -107,7 +107,7 @@ const SignIn = () => {
               variant="primary"
               type="submit"
               disabled={loading}
-              className="w-100 fw-semibold text-white"
+              className="w-100 bg-white px-5 rounded-5 py-2 text-black fw-semibold"
             >
               {loading ? <Spinner animation="border" size="sm" /> : "Sign In"}
             </Button>

@@ -34,7 +34,9 @@ export const getUserProfile = async (id: string) => {
 // ----------------------------
 export const updateUserProfile = async (
   id: string,
-  data: Partial<Pick<UserProfile, "weightKg" | "age" | "activity" | "goal" | "heightCm">>
+  data: Partial<
+    Pick<UserProfile, "weightKg" | "age" | "activity" | "goal" | "heightCm">
+  >
 ) => {
   const user = await prisma.user.findUnique({
     where: { id },
@@ -42,7 +44,6 @@ export const updateUserProfile = async (
   });
 
   if (!user) throw new ValidationError("User not found");
-
 
   // Otherwise, update existing profile
   const updatedProfile = await prisma.userProfile.update({
@@ -53,13 +54,26 @@ export const updateUserProfile = async (
   return updatedProfile;
 };
 
+export const getUserPlan = async (userId: string) => {
+  const userPlan = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      userPlans: {
+        include:{
+          plan:true
+        }
+      }
+    },
+  });
+  return userPlan;
+};
+
 // ----------------------------
 // 🏋️ Subscribe to a Workout Plan
 // ----------------------------
-export const subscribeWorkoutPlan = async (
-  userId: string,
-  planId: string
-) => {
+export const subscribeWorkoutPlan = async (userId: string, planId: string) => {
   // Validate user
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) throw new ValidationError("User not found");
@@ -91,10 +105,7 @@ export const subscribeWorkoutPlan = async (
 // ----------------------------
 // ❌ Withdraw (Unsubscribe) from a Workout Plan
 // ----------------------------
-export const withdrawWorkoutPlan = async (
-  userId: string,
-  planId: string
-) => {
+export const withdrawWorkoutPlan = async (userId: string, planId: string) => {
   // Validate user and plan exist
   const [user, plan] = await Promise.all([
     prisma.user.findUnique({ where: { id: userId } }),

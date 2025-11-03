@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Button, Card, Container, Alert } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
+import { useParams } from "react-router-dom";
 
 const CreateWorkout = () => {
+  const { id } = useParams<{ id: string }>(); // Get ID from URL if exists
   const [preview, setPreview] = useState<string | null>(null);
   const [exerciseName, setExerciseName] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -11,6 +13,43 @@ const CreateWorkout = () => {
     text: string;
     type: "success" | "danger";
   } | null>(null);
+
+  // Fetch existing workout if ID is provided
+  useEffect(() => {
+    const fetchWorkout = async () => {
+      try {
+        if (!id) return;
+
+        setLoading(true);
+        const res = await axios.get(
+          `http://localhost:4000/api/workouts/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.data.success && res.data.data) {
+          setExerciseName(res.data.data.exercise);
+          setPreview(res.data.data.image); // Assuming backend returns image URL
+        } else {
+          setMessage({ text: "Workout not found.", type: "danger" });
+        }
+      } catch (error) {
+        console.log(error);
+        if (error instanceof AxiosError)
+          setMessage({
+            text:
+              error.response?.data?.message ||
+              "Failed to load workout details.",
+            type: "danger",
+          });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkout();
+  }, [id]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -24,7 +63,7 @@ const CreateWorkout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!exerciseName || !imageFile) {
+    if (!exerciseName || (!imageFile && !id)) {
       setMessage({ text: "Please fill in all fields.", type: "danger" });
       return;
     }
@@ -35,31 +74,48 @@ const CreateWorkout = () => {
 
       const formData = new FormData();
       formData.append("exercise", exerciseName);
-      formData.append("image", imageFile);
+      if (imageFile) formData.append("image", imageFile);
 
-      const res = await axios.post(
-        `http://localhost:4000/api/workouts`,
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const url = id
+        ? `http://localhost:4000/api/workouts/${id}`
+        : `http://localhost:4000/api/workouts`;
+      const method = id ? "put" : "post";
+
+      const res = await axios({
+        method,
+        url,
+        data: formData,
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (res.data.success) {
-        setMessage({ text: "Workout created successfully!", type: "success" });
-        setExerciseName("");
-        setPreview(null);
-        setImageFile(null);
+        setMessage({
+          text: id
+            ? "Workout updated successfully!"
+            : "Workout created successfully!",
+          type: "success",
+        });
+
+        if (!id) {
+          setExerciseName("");
+          setPreview(null);
+          setImageFile(null);
+        }
       } else {
-        setMessage({ text: "Failed to create workout.", type: "danger" });
+        setMessage({
+          text: id ? "Failed to update workout." : "Failed to create workout.",
+          type: "danger",
+        });
       }
     } catch (error) {
       if (error instanceof AxiosError)
         setMessage({
           text:
             error.response?.data?.message ||
-            "Something went wrong while creating the workout.",
+            (id
+              ? "Something went wrong while updating the workout."
+              : "Something went wrong while creating the workout."),
           type: "danger",
         });
     } finally {
@@ -82,10 +138,9 @@ const CreateWorkout = () => {
       >
         <Card.Body>
           <h3 className="text-center mb-4 fw-bold text-white">
-            Create Workout
+            {id ? "Update Workout" : "Create Workout"}
           </h3>
 
-          {/* Message at top */}
           {message && (
             <Alert
               variant={message.type}
@@ -96,27 +151,25 @@ const CreateWorkout = () => {
           )}
 
           <Form onSubmit={handleSubmit}>
-            {/* Exercise Name */}
             <Form.Group controlId="exerciseName" className="mb-3">
-              <Form.Label className="text-white-50">Exercise Name</Form.Label>
+              <Form.Label className="text-white">Exercise Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter exercise name"
                 value={exerciseName}
                 onChange={(e) => setExerciseName(e.target.value)}
                 required
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
               />
             </Form.Group>
 
-            {/* Image Upload */}
             <Form.Group controlId="exerciseImage" className="mb-4">
-              <Form.Label className="text-white-50">Exercise Image</Form.Label>
+              <Form.Label className="text-white">Exercise Image</Form.Label>
               <Form.Control
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="bg-secondary text-white border-0 rounded-3 p-2"
+                className="bg-transparent text-white border-1 border-white rounded-4"
               />
               {preview && (
                 <div className="mt-3 text-center">
@@ -135,12 +188,16 @@ const CreateWorkout = () => {
             </Form.Group>
 
             <Button
-              variant="primary"
-              type="submit"
               disabled={loading}
-              className="w-100 fw-semibold text-white py-2 rounded-3"
+              className="w-100 bg-white px-5 rounded-5 py-2 text-black fw-semibold"
             >
-              {loading ? "Creating..." : "Create Workout"}
+              {loading
+                ? id
+                  ? "Updating..."
+                  : "Creating..."
+                : id
+                ? "Update Workout"
+                : "Create Workout"}
             </Button>
           </Form>
         </Card.Body>

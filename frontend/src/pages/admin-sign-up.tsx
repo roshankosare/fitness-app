@@ -60,16 +60,11 @@ const AdminSignUp = () => {
   };
 
   return (
-    <Container
-      className="d-flex justify-content-center align-items-center min-vh-100 p-0"
-      style={{
-        background: "linear-gradient(to bottom right, #0a0a0a, #1a1a1a)",
-      }}
-    >
+    <Container className="d-flex justify-content-center align-items-center px-0">
       <Card
         text="white"
-        className="shadow-lg bg-dark border-0 rounded-4"
-        style={{ maxWidth: "420px", width: "100%" }}
+        className="py-4 shadow-lg bg-dark px-2"
+        style={{ maxWidth: "400px", width: "100%" }}
       >
         <Card.Body>
           <h3 className="text-center mb-4 fw-bold text-white">Admin Sign Up</h3>
@@ -78,53 +73,53 @@ const AdminSignUp = () => {
 
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formFullName" className="mb-3">
-              <Form.Label className="text-white-50">Full Name</Form.Label>
+              <Form.Label className="text-white">Full Name</Form.Label>
               <Form.Control
                 type="text"
                 name="fullName"
                 placeholder="Enter your full name"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
 
             <Form.Group controlId="formEmail" className="mb-3">
-              <Form.Label className="text-white-50">Email Address</Form.Label>
+              <Form.Label className="text-white">Email Address</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
 
             <Form.Group controlId="formPassword" className="mb-3">
-              <Form.Label className="text-white-50">Password</Form.Label>
+              <Form.Label className="text-white">Password</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
 
             <Form.Group controlId="formSecretKey" className="mb-4">
-              <Form.Label className="text-white-50">Secret Key</Form.Label>
+              <Form.Label className="text-white">Secret Key</Form.Label>
               <Form.Control
                 type="text"
                 name="secretKey"
                 placeholder="Enter admin secret key"
                 value={formData.secretKey}
                 onChange={handleChange}
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
                 required
               />
             </Form.Group>
@@ -132,7 +127,7 @@ const AdminSignUp = () => {
             <Button
               variant="primary"
               type="submit"
-              className="w-100 fw-semibold text-white py-2 rounded-3"
+              className="w-100 bg-white px-5 rounded-5 py-2 text-black fw-semibold"
               disabled={loading}
             >
               {loading ? (
@@ -147,11 +142,11 @@ const AdminSignUp = () => {
           </Form>
 
           <div className="text-center mt-3">
-            <small className="text-white-50">
+            <small className="text-white">
               Already have an account?{" "}
               <a
                 href="/signin"
-                className="text-decoration-none text-primary fw-semibold"
+                className="text-decoration-none text-white fw-semibold"
               >
                 Sign In
               </a>

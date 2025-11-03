@@ -30,7 +30,7 @@ function App() {
         <Header />
         <div className="d-flex flex-column min-vh-100 bg-black text-light">
           {/* Main Content */}
-          <Container className="flex-grow-1 py-5">
+          <Container className="flex-grow-1 py-5 p-2">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/signin" element={<SignIn />} />
@@ -51,6 +51,15 @@ function App() {
               />
               <Route
                 path="/admin/create-workout"
+                element={
+                  <AdminRoute>
+                    <CreateWorkout />
+                  </AdminRoute>
+                }
+              />
+
+              <Route
+                path="/admin/edit-workout/:id"
                 element={
                   <AdminRoute>
                     <CreateWorkout />

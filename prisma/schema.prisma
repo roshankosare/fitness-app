@@ -26,8 +26,8 @@ model User {
   adminProfile AdminProfile?
 
   // Relations
-  userPlans    UserPlan[]
-  plansCreated Plan[]     @relation("AdminPlans")
+  userPlans    UserPlan?
+  plansCreated Plan[]    @relation("AdminPlans")
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -100,7 +100,7 @@ model Workout {
 
 model UserPlan {
   id     String @id @default(uuid())
-  userId String
+  userId String @unique
   planId String
 
   user User @relation(fields: [userId], references: [id])

@@ -149,7 +149,7 @@ const ManagePlans = () => {
                 <td>
                   <div className="d-flex gap-2 justify-content-center">
                     <Button
-                      variant="warning"
+                      className="bg-white px-4 rounded-5 py-1 text-black fw-semibold"
                       size="sm"
                       onClick={() => navigate(`/admin/plan-builder/${plan.id}`)}
                     >

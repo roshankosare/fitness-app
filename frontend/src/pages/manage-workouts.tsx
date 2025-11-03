@@ -46,32 +46,32 @@ export const ManageWorkouts = () => {
     }
   };
 
-  /** ❌ Delete a workout */
-  const deleteWorkout = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this workout?")) return;
+  // /** ❌ Delete a workout */
+  // const deleteWorkout = async (id: string) => {
+  //   if (!confirm("Are you sure you want to delete this workout?")) return;
 
-    try {
-      const res = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/admin/workouts/${id}`,
-        {
-          withCredentials: true,
-        }
-      );
+  //   try {
+  //     const res = await axios.delete(
+  //       `${import.meta.env.VITE_API_URL}/api/admin/workouts/${id}`,
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
 
-      if (res.status === 200) {
-        setWorkouts((prev) => prev.filter((w) => w.id !== id));
-        setMessage({ text: "Workout deleted successfully!", type: "success" });
-      }
-    } catch (err) {
-      if (err instanceof AxiosError)
-        setMessage({
-          text: err.response?.data?.message || "Failed to delete workout.",
-          type: "danger",
-        });
-    } finally {
-      setTimeout(() => setMessage(null), 4000);
-    }
-  };
+  //     if (res.status === 200) {
+  //       setWorkouts((prev) => prev.filter((w) => w.id !== id));
+  //       setMessage({ text: "Workout deleted successfully!", type: "success" });
+  //     }
+  //   } catch (err) {
+  //     if (err instanceof AxiosError)
+  //       setMessage({
+  //         text: err.response?.data?.message || "Failed to delete workout.",
+  //         type: "danger",
+  //       });
+  //   } finally {
+  //     setTimeout(() => setMessage(null), 4000);
+  //   }
+  // };
 
   useEffect(() => {
     fetchWorkouts();
@@ -87,11 +87,10 @@ export const ManageWorkouts = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="fw-bold text-white">Manage Workouts</h2>
         <Button
-          variant="success"
-          className="fw-semibold"
+          className="bg-white px-4 rounded-5 py-2 text-black fw-semibold"
           onClick={() => navigate("/admin/create-workout")}
         >
-          ➕ Create Workout
+          Create Workout
         </Button>
       </div>
 
@@ -154,19 +153,21 @@ export const ManageWorkouts = () => {
                 <td>
                   <div className="d-flex gap-2 justify-content-center">
                     <Button
-                      variant="warning"
                       size="sm"
-                      onClick={() => navigate(`/admin/create-workout`)}
+                      className=" bg-white px-4 rounded-5 py-1 text-black fw-semibold"
+                      onClick={() =>
+                        navigate(`/admin/edit-workout/${workout.id}`)
+                      }
                     >
                       Edit
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="danger"
                       size="sm"
                       onClick={() => deleteWorkout(workout.id)}
                     >
                       Delete
-                    </Button>
+                    </Button> */}
                   </div>
                 </td>
               </tr>

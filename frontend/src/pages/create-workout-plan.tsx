@@ -77,7 +77,7 @@ const CreatePlan = () => {
     >
       <Card
         text="white"
-        className="py-4 px-1 shadow-lg bg-dark border-0 rounded-4"
+        className="py-4 px-2 shadow-lg bg-dark border-0 rounded-4"
         style={{ maxWidth: "480px", width: "100%" }}
       >
         <Card.Body>
@@ -100,20 +100,20 @@ const CreatePlan = () => {
           <Form onSubmit={handleSubmit}>
             {/* Plan Name */}
             <Form.Group controlId="planName" className="mb-3">
-              <Form.Label className="text-white-50">Plan Name</Form.Label>
+              <Form.Label className="text-white">Plan Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter plan name"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
               />
             </Form.Group>
 
             {/* Description */}
             <Form.Group controlId="planDescription" className="mb-3">
-              <Form.Label className="text-white-50">Description</Form.Label>
+              <Form.Label className="text-white">Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={4}
@@ -121,18 +121,18 @@ const CreatePlan = () => {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="bg-secondary text-white border-0 rounded-3"
+                className="bg-transparent text-white border-1 border-white rounded-4"
               />
             </Form.Group>
 
             {/* Image Upload */}
             <Form.Group controlId="planImage" className="mb-4">
-              <Form.Label className="text-white-50">Banner Image</Form.Label>
+              <Form.Label className="text-white">Banner Image</Form.Label>
               <Form.Control
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="bg-secondary text-white border-0 rounded-3 p-2"
+                className="bg-transparent text-white border-1 border-white rounded-4"
               />
               {preview && (
                 <div className="mt-3 text-center">
@@ -153,7 +153,7 @@ const CreatePlan = () => {
             <Button
               variant="primary"
               type="submit"
-              className="w-100 fw-semibold text-white py-2 rounded-3"
+              className=" w-100 bg-white px-5 rounded-5 py-2 text-black fw-semibold"
               disabled={loading}
             >
               {loading ? (
