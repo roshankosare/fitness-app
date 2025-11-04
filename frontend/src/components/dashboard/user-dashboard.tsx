@@ -13,6 +13,8 @@ import {
   FaClock,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import FitnessGoalCard from "../profile/fiteness-goal-card";
+import Error from "../error";
 
 export const UserDashboard = () => {
   const [currentPlan, setCurrentPlan] = useState<{
@@ -65,6 +67,8 @@ export const UserDashboard = () => {
     fetchUserPlan();
   }, []);
 
+  if (error) return <Error />;
+
   return (
     <>
       {userProfile && (
@@ -77,6 +81,8 @@ export const UserDashboard = () => {
                 {userProfile?.fullName}
               </h5>
             </div>
+
+            <FitnessGoalCard goal={userProfile.userProfile.goal || undefined} />
 
             {/* Info Boxes */}
             <Row className="g-3 px-3">
@@ -203,25 +209,21 @@ export const UserDashboard = () => {
             {!currentPlan && !loading && (
               <Row>
                 <Col md={12}>
-                  <p className="fs-2 font-bold text-white fw-bold">
-                    No Plan selected, Select Plan To Begin new Journey
-                  </p>
-                  <Link to="/plans">
-                    <Button className="bg-white text-black px-4 py-2 fs-4 rounded-pill fw-bold">
-                      Begin Now
-                    </Button>
-                  </Link>
+                  <div className="d-flex flex-column justify-content-center align-items-center text-center">
+                    <p className="fs-2 fw-bold text-white mb-3">
+                      No Plan selected, Select Plan To Begin new Journey
+                    </p>
+                    <Link to="/plans" className="text-decoration-none">
+                      <Button className="bg-white text-black px-4 py-2 fs-5 rounded-pill fw-bold d-block mx-auto">
+                        Select Plan
+                      </Button>
+                    </Link>
+                  </div>
                 </Col>
               </Row>
             )}
           </Col>
         </Row>
-      )}
-
-      {error && (
-        <div className="w-100 flex flex-column justify-content-center align-items-center">
-          <h1>Something Went Wrong</h1>
-        </div>
       )}
     </>
   );

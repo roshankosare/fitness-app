@@ -1,38 +1,71 @@
+import type { Plan } from "@prisma/client";
+import axios, { AxiosError } from "axios";
+import { useEffect, useState } from "react";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-const mockPlans = [
-  {
-    id: "1",
-    name: "Beginner Strength Plan",
-    description:
-      "A 4-week strength training program focused on building a solid foundation.",
-    bannerImage: "https://via.placeholder.com/400x250?text=Beginner+Plan",
-  },
-  {
-    id: "2",
-    name: "Fat Loss Plan",
-    description:
-      "A 6-week intense fat-burning plan combining cardio and resistance training.",
-    bannerImage: "https://via.placeholder.com/400x250?text=Fat+Loss+Plan",
-  },
-  {
-    id: "3",
-    name: "Muscle Gain Plan",
-    description:
-      "An 8-week program designed for hypertrophy and muscle building.",
-    bannerImage: "https://via.placeholder.com/400x250?text=Muscle+Gain+Plan",
-  },
-];
+import Error from "../components/error";
+// const mockPlans = [
+//   {
+//     id: "1",
+//     name: "Beginner Strength Plan",
+//     description:
+//       "A 4-week strength training program focused on building a solid foundation.",
+//     bannerImage: "https://via.placeholder.com/400x250?text=Beginner+Plan",
+//   },
+//   {
+//     id: "2",
+//     name: "Fat Loss Plan",
+//     description:
+//       "A 6-week intense fat-burning plan combining cardio and resistance training.",
+//     bannerImage: "https://via.placeholder.com/400x250?text=Fat+Loss+Plan",
+//   },
+//   {
+//     id: "3",
+//     name: "Muscle Gain Plan",
+//     description:
+//       "An 8-week program designed for hypertrophy and muscle building.",
+//     bannerImage: "https://via.placeholder.com/400x250?text=Muscle+Gain+Plan",
+//   },
+// ];
 
 const Plans = () => {
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/api/workout-plans");
+
+        console.log(res.data);
+        if (res.data.data) {
+          setPlans(res.data.data);
+          return;
+        }
+        setError(true);
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          setError(true);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  if (loading) return null;
+  if (error) return <Error />;
+
   return (
     <div className="py-5 text-white container">
       <h2 className="text-center mb-5 fw-bold">Workout Plans</h2>
 
       {/* ✅ Use proper responsive grid */}
       <Row className="g-4">
-        {mockPlans.map((plan) => (
+        {plans.map((plan) => (
           <Col key={plan.id} xs={12} md={6} lg={4}>
             <Card className="bg-dark text-light shadow border-0 h-100">
               <Card.Img

@@ -3,7 +3,7 @@ import { prisma } from "../util/db";
 
 export const getAllWorkoutsPlans = async () => {
   const plans = await prisma.plan.findMany({
-    select: {
+    include: {
       createdBy: {
         select: {
           fullName: true,
@@ -28,6 +28,7 @@ export const getWorkoutPlanById = async (id: string) => {
       weeks: true,
     },
   });
+  
 
   if (!plan) throw new ValidationError("invalid workout id");
 

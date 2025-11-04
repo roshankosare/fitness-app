@@ -60,9 +60,9 @@ export const updateUserProfileController = async (
 ) => {
   try {
     const id = (req as any).user.id;
-    const body = req.body;
+    const { userData } = req.body;
 
-    const updated = await updateUserProfile(id, body);
+    const updated = await updateUserProfile(id, { ...userData });
 
     res.status(200).json({
       success: true,

@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import type { Plan, PlanWeek } from "@prisma/client";
@@ -63,9 +59,7 @@ export const PlanBuilderProvider = ({
                   "Sunday",
                 ] as DayName[]
               ).map((day) => {
-                const activityDay = activities.days?.find(
-                  (d) => d.day === day
-                );
+                const activityDay = activities.days?.find((d) => d.day === day);
 
                 return {
                   day,
@@ -127,7 +121,6 @@ export const PlanBuilderProvider = ({
     field: string,
     value: string
   ) => {
-  
     const newWeeks = [...weeks];
     const day = newWeeks[weekIndex].days[dayIndex];
 
@@ -182,7 +175,7 @@ export const PlanBuilderProvider = ({
     try {
       const res = await axios.post(
         `http://localhost:4000/api/admin/plans/${planId}/weeks`,
-        { activities: weeks[weekIndex], weekNumber: weekIndex + 1 },
+        { activities: weeks[weekIndex].days, weekNumber: weekIndex + 1 },
         { withCredentials: true }
       );
 
@@ -214,4 +207,3 @@ export const PlanBuilderProvider = ({
 };
 
 // 🔹 Hook to use context easily
-

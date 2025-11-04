@@ -102,13 +102,31 @@ export default function Header() {
                 </Nav.Link>
               </>
             ) : (
-              <Nav.Link
-                as="button"
-                onClick={logout}
-                className="d-flex align-items-center gap-2 fw-semibold bg-white text-black rounded-pill px-3 py-1"
-              >
-                Sign Out
-              </Nav.Link>
+              <>
+                <Nav.Link
+                  as={Link}
+                  to="/profile"
+                  className={`d-flex align-items-center gap-2 fw-semibold 
+                  `}
+                >
+                  <img
+                    src="profile.png"
+                    className=" rounded-circle"
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      boxShadow: "0 0 4px 2px white",
+                    }}
+                  ></img>
+                </Nav.Link>
+                <Nav.Link
+                  as="button"
+                  onClick={logout}
+                  className="d-flex align-items-center gap-2 fw-semibold bg-white text-black rounded-pill px-3 py-1"
+                >
+                  Sign Out
+                </Nav.Link>
+              </>
             )}
           </Nav>
         </div>
@@ -177,17 +195,37 @@ export default function Header() {
                   </Nav.Link>
                 </>
               ) : (
-                <Nav.Link
-                  as="button"
-                  onClick={() => {
-                    logout();
-                    handleClose();
-                  }}
-                  className="d-flex align-items-center gap-2 text-danger fw-semibold"
-                >
-                  <FaSignInAlt />
-                  <span>Sign Out</span>
-                </Nav.Link>
+                <div className="d-flex justify-content-between">
+                  <Nav.Link
+                    as={Link}
+                    to="/profile"
+                    className={`d-flex align-items-center gap-2 fw-semibold ${isActive(
+                      "/profile"
+                    )}`}
+                  >
+                    <img
+                      src="profile.png"
+                      className=" rounded-circle"
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        boxShadow: "0 0 4px 2px white",
+                      }}
+                    ></img>
+                    <span>Profile</span>
+                  </Nav.Link>
+                  <Nav.Link
+                    as="button"
+                    onClick={() => {
+                      logout();
+                      handleClose();
+                    }}
+                    className="d-flex align-items-center gap-2 text-white fw-semibold"
+                  >
+                    <FaSignInAlt />
+                    <span>Sign Out</span>
+                  </Nav.Link>
+                </div>
               )}
             </Nav>
           </Offcanvas.Body>

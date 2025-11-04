@@ -21,6 +21,7 @@ import { AuthProvider } from "./providers/authProvider";
 import Dashboard from "./pages/dashboard";
 import ManagePlans from "./pages/manage-plans";
 import { ManageWorkouts } from "./pages/manage-workouts";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
               <Route path="/plans" element={<Plans />} />
               <Route path="/plans/:id" element={<PlanInfo />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile" element={<Profile />} />
               <Route
                 path="/admin/create-plan"
                 element={

@@ -3,10 +3,9 @@ import {
   Button,
   Row,
   Col,
-  ProgressBar,
   Container,
 } from "react-bootstrap";
-import { FaPlus, FaUsers, FaDumbbell, FaUserCircle } from "react-icons/fa";
+import { FaPlus,  FaDumbbell } from "react-icons/fa";
 import { useAuth } from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";

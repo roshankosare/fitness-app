@@ -48,7 +48,15 @@ export const updateUserProfile = async (
   // Otherwise, update existing profile
   const updatedProfile = await prisma.userProfile.update({
     where: { userId: user.id },
-    data,
+    data: {
+      ...(data.weightKg && {
+        weightKg: parseInt(data.weightKg as unknown as string),
+      }),
+      ...(data.heightCm && {
+        heightCm: parseInt(data.heightCm as unknown as string),
+      }),
+      ...(data.age && { age: parseInt(data.age as unknown as string) }),
+    },
   });
 
   return updatedProfile;
@@ -61,10 +69,10 @@ export const getUserPlan = async (userId: string) => {
     },
     select: {
       userPlans: {
-        include:{
-          plan:true
-        }
-      }
+        include: {
+          plan: true,
+        },
+      },
     },
   });
   return userPlan;

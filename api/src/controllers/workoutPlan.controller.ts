@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { getAllWorkoutsPlans, getWorkoutById } from "../services";
+import {
+  getAllWorkoutsPlans,
+  getWorkoutById,
+  getWorkoutPlanById,
+} from "../services";
 
 export const getAllWorkoutPlansController = async (
   req: Request,
@@ -24,7 +28,8 @@ export const getWorkoutPlanByIdController = async (
 ) => {
   try {
     const { id } = req.params;
-    const plan = await getWorkoutById(id);
+
+    const plan = await getWorkoutPlanById(id);
     res.status(200).json({
       success: true,
       data: plan,
