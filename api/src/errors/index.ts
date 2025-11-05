@@ -1,5 +1,6 @@
 export * from "./auth.error";
 export * from "./internal.error";
+export * from "./user.error";
 
 export class ValidationError extends Error {
   constructor(message: string) {

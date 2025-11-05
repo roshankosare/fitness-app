@@ -1,71 +1,20 @@
-import type { Plan, User, UserPlan, UserProfile } from "@prisma/client";
-import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
-import { Button, Card, Col, ProgressBar, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import {
   FaBirthdayCake,
   FaMale,
   FaRulerVertical,
   FaWeight,
   FaChartLine,
-  FaDumbbell,
-  FaCalendarAlt,
-  FaClock,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import FitnessGoalCard from "../profile/fiteness-goal-card";
+import FitnessGoalCard from "../profile/fitness-goal-card";
 import Error from "../error";
+import { PlanProgress } from "./plan-progress";
+import { useUserDashboard } from "../../hooks/useUserDashBoard";
 
 export const UserDashboard = () => {
-  const [currentPlan, setCurrentPlan] = useState<{
-    userPlans: UserPlan & { plan: Plan };
-  }>();
-  const [userProfile, setUserProfile] = useState<
-    (Pick<User, "fullName" | "email"> & { userProfile: UserProfile }) | null
-  >(null);
-  const [error, setError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const res = await axios.get("http://localhost:4000/api/user-profile", {
-          withCredentials: true,
-        });
-        setUserProfile(res.data.data);
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          setError(true);
-        }
-      }
-    };
-    fetchUserProfile();
-  }, []);
-
-  useEffect(() => {
-    const fetchUserPlan = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:4000/api/user-profile/user-plan",
-          {
-            withCredentials: true,
-          }
-        );
-        if (res.data.data.userPlans) {
-          setCurrentPlan(res.data.data.userPlans);
-          return;
-        }
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          console.log(err);
-          setError(true);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUserPlan();
-  }, []);
+  const { error, userProfile, currentPlan, currentWeekDay, loading } =
+    useUserDashboard();
 
   if (error) return <Error />;
 
@@ -123,19 +72,27 @@ export const UserDashboard = () => {
             {currentPlan && (
               <Row>
                 <Col md={12}>
-                  <Card className="border-0 shadow-sm rounded-4 bg-black p-0">
+                  <Card className="border-0 shadow-sm rounded-4 bg-black p-0 ">
                     <Card.Body>
                       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-                        <div>
-                          <h4 className="fw-bold text-dark mb-2 text-white">
-                            <FaChartLine className="text-primary me-2" />
-                            {currentPlan?.userPlans.plan.name}
-                          </h4>
+                        <div className="w-100 d-flex flex-column justify-content-center align-items-center">
+                          <div className="d-flex flex-column flex-sm-row gap-2 mb-2 align-items-center mx-auto w-100">
+                            <h4 className="fw-bold text-dark mb-2 text-white">
+                              <FaChartLine className="text-primary me-2" />
+                              {currentPlan?.plan.name}
+                            </h4>
+
+                            <Link to={`/plans/${currentPlan.planId}`}>
+                              <Button className="bg-white text-black rounded-pill px-4 py-1 fw-bold ">
+                                See Plan
+                              </Button>
+                            </Link>
+                          </div>
                           <p className="text-muted mb-3">
                             Stay consistent and push your limits! 💪
                           </p>
                         </div>
-                        <div className="text-md-end">
+                        {/* <div className="text-md-end">
                           <span className="fw-semibold text-primary">
                             Progress: {65}%
                           </span>
@@ -145,61 +102,13 @@ export const UserDashboard = () => {
                             variant="primary"
                             style={{ height: "8px", width: "300px" }}
                           />
-                        </div>
+                        </div> */}
                       </div>
 
-                      <Row className="mt-4 g-3">
-                        {/* Week */}
-                        <Col xs={6} md={3}>
-                          <Card className="border-0 shadow-sm rounded-4 text-center py-3">
-                            <Card.Body>
-                              <FaCalendarAlt
-                                size={28}
-                                className="text-success mb-2"
-                              />
-                              <h6 className="fw-bold mb-0 text-white">Week</h6>
-                              <p className="mb-0 text-white">
-                                {/* {currentPlan?.userPlans?.progress?.week || 4} */}
-                                4
-                              </p>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-
-                        {/* Day */}
-                        <Col xs={6} md={3}>
-                          <Card className="border-0 shadow-sm rounded-4 text-center py-3">
-                            <Card.Body>
-                              <FaClock
-                                size={28}
-                                className="text-warning mb-2"
-                              />
-                              <h6 className="fw-bold mb-0 text-white">Day</h6>
-                              {/* <p className="mb-0 text-white">{`${currentPlan.currentDay} / ${currentPlan.totalPlanDays}`}</p> */}
-                              <p className="mb-0 text-white">{`75 / 120`}</p>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-
-                        {/* Today's Workout */}
-                        <Col xs={12} md={6}>
-                          <Card className="border-0 shadow-sm rounded-4 text-center py-3">
-                            <Card.Body>
-                              <FaDumbbell
-                                size={28}
-                                className="text-danger mb-2"
-                              />
-                              <h6 className="fw-bold mb-0 text-white">
-                                Today's Workout
-                              </h6>
-                              <p className="mb-0 text-white">
-                                {/* {currentPlan.todayWorkout} */}
-                                Push pull
-                              </p>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      </Row>
+                      <PlanProgress
+                        currentPlan={currentPlan}
+                        weekDay={currentWeekDay || undefined}
+                      />
                     </Card.Body>
                   </Card>
                 </Col>

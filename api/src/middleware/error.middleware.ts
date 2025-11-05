@@ -3,6 +3,8 @@ import {
   UserAlreadyExistsError,
   InvalidEmailNameOrPasswordError,
   ValidationError,
+  ExistingCurrentPlanError,
+  ExistingPlanError,
 } from "../errors";
 
 export const errorHandler = (
@@ -20,6 +22,10 @@ export const errorHandler = (
       return res.status(400).json({ success: false, message: err.message });
     case err instanceof UserAlreadyExistsError:
       return res.status(400).json({ success: false, message: err.message });
+    case err instanceof ExistingCurrentPlanError:
+      return res.status(409).json({ success: false, message: err.message });
+    case err instanceof ExistingPlanError:
+      return res.status(409).json({ success: false, message: err.message });
     default:
       return res
         .status(500)

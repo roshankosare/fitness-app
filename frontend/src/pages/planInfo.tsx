@@ -20,6 +20,7 @@ const PlanInfo = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string>("");
   const [plan, setPlan] = useState<
     | (Plan & {
         createdBy: Pick<User, "fullName">;
@@ -31,6 +32,37 @@ const PlanInfo = () => {
   const [selectedWeek, setSelectedWeek] = useState<
     (Pick<PlanWeek, "id" | "weekNumber"> & { days: WeekDay[] }) | null
   >(null);
+
+  const handleStartPlan = async () => {
+    if (!id) {
+      navigate("/");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `http://localhost:4000/api/user-profile/subscribe/${id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.status === 201) {
+        setMessage(
+          "Congratulation you have subscribed this plan. Visit dashboard to see"
+        );
+      }
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.status === 401) {
+          navigate("/signin");
+          return;
+        }
+        setMessage(err.response?.data.message || "something went wrong");
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchPlan = async () => {
@@ -143,9 +175,18 @@ const PlanInfo = () => {
           >
             <h1 className="fw-bold text-white">{plan.name}</h1>
             <p className="text-white-50 mb-3">{plan.description}</p>
-            <Button className="fw-semibold bg-white px-4 py-2 text-black rounded-pill">
-              Start This Plan
-            </Button>
+            <div className="d-flex flex-sm-column justify-content-between gap-2">
+              <Button
+                className="fw-semibold bg-white px-4 py-2 text-black rounded-pill"
+                onClick={() => handleStartPlan()}
+                style={{
+                  maxWidth: "160px",
+                }}
+              >
+                Start This Plan
+              </Button>
+              {message && <p className="text-white fw-bold">{message}</p>}
+            </div>
           </div>
         </div>
       </div>

@@ -1,1 +1,65 @@
-{"id":"5468af1e-8c85-478e-a314-1d209628a6ab","days":[{"day":"Monday","exercises":[{"name":"Bench Press","reps":"9","sets":"5"},{"name":"Deadlift","reps":"6","sets":"5"},{"name":"Pull Ups","reps":"1","sets":"5"}],"workoutName":"Chest day"},{"day":"Tuesday","exercises":[{"name":"Deadlift","reps":"2","sets":"5"},{"name":"Pull Ups","reps":"1","sets":"5"}],"workoutName":"Leg workout"},{"day":"Wednesday","exercises":[{"name":"Lunges","reps":"4","sets":"6"},{"name":"Bench Press","reps":"3","sets":"4"}],"workoutName":"Chest Day"},{"day":"Thursday","exercises":[],"workoutName":""},{"day":"Friday","exercises":[],"workoutName":""},{"day":"Saturday","exercises":[],"workoutName":""},{"day":"Sunday","exercises":[],"workoutName":""}],"planId":"c699b7fc-7191-49ca-b95e-01a92bc6af62","createdAt":"2025-11-02T13:13:56.662Z","updatedAt":"2025-11-02T17:57:07.936Z","activities":{"id":"5468af1e-8c85-478e-a314-1d209628a6ab","days":[{"day":"Monday","exercises":[{"name":"Bench Press","reps":"9","sets":"5"},{"name":"Deadlift","reps":"6","sets":"5"},{"name":"Pull Ups","reps":"1","sets":"5"}],"workoutName":"Chest day"},{"day":"Tuesday","exercises":[{"name":"Deadlift","reps":"2","sets":"5"},{"name":"Pull Ups","reps":"1","sets":"5"}],"workoutName":"Leg workout"},{"day":"Wednesday","exercises":[{"name":"Lunges","reps":"4","sets":"6"},{"name":"Bench Press","reps":"3","sets":"4"}],"workoutName":"Chest Day"},{"day":"Thursday","exercises":[],"workoutName":""},{"day":"Friday","exercises":[],"workoutName":""},{"day":"Saturday","exercises":[],"workoutName":""},{"day":"Sunday","exercises":[],"workoutName":""}],"planId":"c699b7fc-7191-49ca-b95e-01a92bc6af62","createdAt":"2025-11-02T13:13:56.662Z","updatedAt":"2025-11-02T17:38:36.352Z","activities":{"id":"5468af1e-8c85-478e-a314-1d209628a6ab","days":[{"day":"Monday","exercises":[{"name":"Bench Press","reps":"9","sets":"5"},{"name":"Deadlift","reps":"1","sets":"5"}],"workoutName":"Chest day"},{"day":"Tuesday","exercises":[{"name":"Deadlift","reps":"2","sets":"5"},{"name":"Pull Ups","reps":"1","sets":"5"}],"workoutName":"Leg workout"},{"day":"Wednesday","exercises":[{"name":"Lunges","reps":"4","sets":"6"},{"name":"Bench Press","reps":"3","sets":"4"}],"workoutName":""},{"day":"Thursday","exercises":[],"workoutName":""},{"day":"Friday","exercises":[],"workoutName":""},{"day":"Saturday","exercises":[],"workoutName":""},{"day":"Sunday","exercises":[],"workoutName":""}],"planId":"c699b7fc-7191-49ca-b95e-01a92bc6af62","createdAt":"2025-11-02T13:13:56.662Z","updatedAt":"2025-11-02T17:37:21.526Z","activities":{"id":"5468af1e-8c85-478e-a314-1d209628a6ab","days":[{"day":"Monday","exercises":[{"name":"Bench Press","reps":"9","sets":"5"},{"name":"Deadlift","reps":"1","sets":"5"}],"workoutName":"Chest day"},{"day":"Tuesday","exercises":[{"name":"Deadlift","reps":"2","sets":"5"},{"name":"Pull Ups","reps":"1","sets":"5"}],"workoutName":"Leg workout"},{"day":"Wednesday","exercises":[],"workoutName":""},{"day":"Thursday","exercises":[],"workoutName":""},{"day":"Friday","exercises":[],"workoutName":""},{"day":"Saturday","exercises":[],"workoutName":""},{"day":"Sunday","exercises":[],"workoutName":""}],"planId":"c699b7fc-7191-49ca-b95e-01a92bc6af62","createdAt":"2025-11-02T13:13:56.662Z","updatedAt":"2025-11-02T13:13:56.662Z","activities":{"id":"1762089217387","days":[{"day":"Monday","exercises":[{"name":"Bench Press","reps":"9","sets":"5"},{"name":"Deadlift","reps":"1","sets":"5"}],"workoutName":"Chest day","searchResults":[]},{"day":"Tuesday","exercises":[{"name":"","reps":"","sets":""}],"workoutName":"","searchResults":[]},{"day":"Wednesday","exercises":[],"workoutName":"","searchResults":[]},{"day":"Thursday","exercises":[],"workoutName":"","searchResults":[]},{"day":"Friday","exercises":[],"workoutName":"","searchResults":[]},{"day":"Saturday","exercises":[],"workoutName":"","searchResults":[]},{"day":"Sunday","exercises":[],"workoutName":"","searchResults":[]}]},"weekNumber":1},"weekNumber":1},"weekNumber":1},"weekNumber":1}
+{
+  "current": {
+    "weekNumber": 1,
+    "day": "Tuesday",
+    "exercise": "Deadlift",
+    "startedAt": "2025-11-05T06:30:00.000Z"
+  },
+  "weeks": [
+    {
+      "weekNumber": 1,
+      "days": [
+        {
+          "day": "Monday",
+          "workoutName": "Chest Day",
+          "completed": true,
+          "exercises": [
+            {
+              "name": "Bench Press",
+              "sets": "5",
+              "reps": "8",
+              "completed": true
+            },
+            {
+              "name": "Incline Dumbbell Press",
+              "sets": "4",
+              "reps": "10",
+              "completed": true
+            },
+            {
+              "name": "Push Ups",
+              "sets": "3",
+              "reps": "15",
+              "completed": true
+            }
+          ]
+        },
+        {
+          "day": "Tuesday",
+          "workoutName": "Leg Workout",
+          "completed": false,
+          "exercises": [
+            {
+              "name": "Squats",
+              "sets": "5",
+              "reps": "10",
+              "completed": false
+            },
+            {
+              "name": "Lunges",
+              "sets": "4",
+              "reps": "8",
+              "completed": false
+            },
+            {
+              "name": "Leg Press",
+              "sets": "4",
+              "reps": "12",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

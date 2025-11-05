@@ -10,6 +10,7 @@ import {
   FaDumbbell,
 } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
+import { RiDashboard2Fill } from "react-icons/ri";
 
 export default function Header() {
   const location = useLocation();
@@ -29,6 +30,7 @@ export default function Header() {
     { to: "/about", label: "About Us", icon: <FaInfoCircle /> },
     { to: "/contact", label: "Contact", icon: <FaEnvelope /> },
     { to: "/plans", label: "Plans", icon: <FaDumbbell /> },
+    { to: "/dashboard", label: "Dashboard", icon: <RiDashboard2Fill /> },
   ];
 
   return (
