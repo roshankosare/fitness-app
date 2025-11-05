@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Card, ListGroup, Badge } from "react-bootstrap";
+import React from "react";
+import { Card, ListGroup } from "react-bootstrap";
 import type { WeekDay } from "../../types";
 // adjust import as needed
 
@@ -8,19 +8,17 @@ type Props = {
 };
 
 const TodaysPlanInfo: React.FC<Props> = ({ weekDay }) => {
-  const [completedExercises, setCompletedExercises] = useState<string[]>([]);
+  // const [completedExercises, setCompletedExercises] = useState<string[]>([]);
 
-  const handleCompleteExercise = (exerciseName: string) => {
-    setCompletedExercises((prev) =>
-      prev.includes(exerciseName)
-        ? prev.filter((name) => name !== exerciseName)
-        : [...prev, exerciseName]
-    );
-  };
+  // const handleCompleteExercise = (exerciseName: string) => {
+  //   setCompletedExercises((prev) =>
+  //     prev.includes(exerciseName)
+  //       ? prev.filter((name) => name !== exerciseName)
+  //       : [...prev, exerciseName]
+  //   );
+  // };
 
   if (!weekDay) return null;
-
-  const allCompleted = completedExercises.length === weekDay.exercises.length;
 
   return (
     <Card className="border-0 shadow-sm rounded-4 p-3 mt-4 bg-dark text-white">
@@ -33,13 +31,13 @@ const TodaysPlanInfo: React.FC<Props> = ({ weekDay }) => {
             <p className="text-secondary mb-0">{weekDay.day}</p>
           </div>
 
-          <Button
+          {/* <Button
             disabled={allCompleted}
             onClick={() => console.log("Workout started")}
             className="rounded-pill px-4 py-2 bg-white text-black fw-bold"
           >
             {allCompleted ? "Completed" : "Start Workout"}
-          </Button>
+          </Button> */}
         </div>
 
         <ListGroup variant="flush">
@@ -55,7 +53,7 @@ const TodaysPlanInfo: React.FC<Props> = ({ weekDay }) => {
                 </small>
               </div>
 
-              <Button
+              {/* <Button
                 size="sm"
                 variant={
                   completedExercises.includes(exercise.name)
@@ -68,18 +66,18 @@ const TodaysPlanInfo: React.FC<Props> = ({ weekDay }) => {
                 {completedExercises.includes(exercise.name)
                   ? "Done"
                   : "Mark Complete"}
-              </Button>
+              </Button> */}
             </ListGroup.Item>
           ))}
         </ListGroup>
 
-        {allCompleted && (
+        {/* {allCompleted && (
           <div className="text-center mt-3">
             <Badge bg="success" className="p-2 rounded-3">
               🎉 All exercises completed!
             </Badge>
           </div>
-        )}
+        )} */}
       </Card.Body>
     </Card>
   );

@@ -12,11 +12,7 @@ const PlanBuilder = () => {
   if (loading) return <Loading />;
 
   const toggleWeek = (weekId: string) => {
-    setExpandedWeeks((prev) =>
-      prev.includes(weekId)
-        ? prev.filter((id) => id !== weekId)
-        : [...prev, weekId]
-    );
+    setExpandedWeeks((prev) => (prev.includes(weekId) ? [] : [weekId]));
   };
 
   const toggleDay = (weekIndex: number, dayIndex: number) => {
@@ -124,7 +120,7 @@ const PlanBuilder = () => {
               </Collapse>
             </Card.Body>
 
-            <div className="text-center mt-4">
+            <div className="text-center mt-0">
               <Button
                 className="bg-white px-5 rounded-5 py-2 text-black fw-semibold"
                 onClick={() => savePlan(weekIndex)}

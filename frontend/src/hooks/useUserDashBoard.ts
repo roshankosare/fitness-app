@@ -39,7 +39,7 @@ export const useUserDashboard = () => {
     // Calculate number of days since plan started
     const diffDays = Math.floor(
       (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    ) + 1;
 
     // Each week = 7 days
     const weekNumber = Math.floor(diffDays / 7);

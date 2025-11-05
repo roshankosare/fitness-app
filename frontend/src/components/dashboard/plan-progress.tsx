@@ -57,7 +57,24 @@ export const PlanProgress: React.FC<Props> = ({ currentPlan, weekDay }) => {
             <FaClock size={28} className="text-warning mb-2" />
             <h6 className="fw-bold mb-0 text-white">Day</h6>
             <p className="mb-0 text-white">
-              {currentPlan?.progress?.current?.day ?? "-"}
+              {(() => {
+                const days = [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday",
+                ];
+                const currentWeek =
+                  currentPlan?.progress?.current?.weekNumber || 1;
+                const currentDay = weekDay?.day;
+                const dayIndex = currentDay ? days.indexOf(currentDay) : 0;
+
+                // Calculate overall day number (1-based)
+                return 7 * (currentWeek - 1) + (dayIndex + 1);
+              })()}
             </p>
           </Card.Body>
         </Card>

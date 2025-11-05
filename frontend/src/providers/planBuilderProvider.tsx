@@ -37,14 +37,12 @@ export const PlanBuilderProvider = ({
         );
 
         if (res.status === 200) {
+          console.log(res.data.data);
           const planData = res.data.data as Plan & { weeks: PlanWeek[] };
           setPlan(planData);
 
           const planWeeks = planData.weeks.map((week: PlanWeek) => {
-            const activities = (week.activities || {}) as {
-              id: string;
-              days: WeekDay[];
-            };
+            const activities = (week.activities || {}) as WeekDay[];
 
             return {
               ...week,
@@ -59,7 +57,7 @@ export const PlanBuilderProvider = ({
                   "Sunday",
                 ] as DayName[]
               ).map((day) => {
-                const activityDay = activities.days?.find((d) => d.day === day);
+                const activityDay = activities?.find((d) => d.day === day);
 
                 return {
                   day,
