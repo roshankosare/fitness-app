@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Button, Card, Container, Alert, Spinner } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 const SignUp = () => {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -13,6 +14,8 @@ const SignUp = () => {
     type: "success" | "danger";
     text: string;
   } | null>(null);
+
+  const {refetchToggle} =useAuth();
 
   const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +38,7 @@ const SignUp = () => {
       );
       if (res.status === 200) {
         //redirect to dashboard
+        refetchToggle();
         navigate("/dashboard");
       }
 

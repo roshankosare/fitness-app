@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Button, Card, Container, Alert, Spinner } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const AdminSignUp = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ const AdminSignUp = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const { refetchToggle } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,6 +45,7 @@ const AdminSignUp = () => {
       setFormData({ fullName: "", email: "", password: "", secretKey: "" });
 
       // rediredct
+      refetchToggle();
       navigate("/dashboard");
     } catch (error) {
       console.log(error);

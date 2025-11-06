@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form, Button, Card, Container, Alert, Spinner } from "react-bootstrap";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,6 +12,7 @@ const SignIn = () => {
     text: string;
   } | null>(null);
   const navigate = useNavigate();
+  const {refetchToggle} = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,12 +33,13 @@ const SignIn = () => {
         text: res.data.message || "Signed in successfully!",
       });
       setFormData({ email: "", password: "" });
+      refetchToggle();
       navigate("/dashboard");
 
       // Redirect or reload (optional)
-      setTimeout(() => {
-        window.location.href = "/"; // redirect to home
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.href = "/"; // redirect to home
+      // }, 1000);
     } catch (error) {
       if (error instanceof AxiosError)
         setMessage({

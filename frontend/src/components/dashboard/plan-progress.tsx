@@ -87,9 +87,7 @@ export const PlanProgress: React.FC<Props> = ({ currentPlan, weekDay }) => {
             <FaDumbbell size={28} className="text-danger mb-2" />
             <h6 className="fw-bold mb-0 text-white">Today's Workout</h6>
             <p className="mb-0 text-white">
-              {currentPlan?.progress?.weeks?.[0]?.days?.find(
-                (d) => d.day === currentPlan?.progress?.current?.day
-              )?.workoutName ?? "Rest Day"}
+              {weekDay?.workoutName}
             </p>
           </Card.Body>
         </Card>

@@ -53,6 +53,10 @@ export const updateUserProfile = async (
   const updatedProfile = await prisma.userProfile.update({
     where: { userId: user.id },
     data: {
+      ...(data.goal && {
+        goal: data.goal,
+      }),
+
       ...(data.weightKg && {
         weightKg: parseInt(data.weightKg as unknown as string),
       }),

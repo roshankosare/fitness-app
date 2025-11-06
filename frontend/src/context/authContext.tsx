@@ -11,6 +11,7 @@ interface AuthContextType {
   loading: boolean;
   refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
+  refetchToggle:()=>void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -18,4 +19,5 @@ export const AuthContext = createContext<AuthContextType>({
   loading: true,
   refreshUser: async () => {},
   logout: async () => {},
+  refetchToggle:()=>{}
 });
