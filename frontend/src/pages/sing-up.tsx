@@ -15,7 +15,7 @@ const SignUp = () => {
     text: string;
   } | null>(null);
 
-  const {refetchToggle} =useAuth();
+  const { refetchToggle } = useAuth();
 
   const navigate = useNavigate();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
